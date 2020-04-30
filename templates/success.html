@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Wall</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css.success/bootstrap.min.css') }}">
+
+  
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css.success/mdb.min.css') }}">
+  
+  <!-- Your custom styles (optional) -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css.success/style.min.css') }}">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="grey lighten-3">
+
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+    <div class="container">
+
+     
+      <a class="navbar-brand waves-effect" href="#" target="_blank">
+        <strong class="blue-text">HEY</strong>
+      </a>
+
+     
+      
+        
+        <ul class="navbar-nav nav-flex-icons">
+          <li class="nav-item">
+              <form action="/logout" method="POST">
+              <i  class="fa fa-sign-out"> 
+            
+                <input class="btn btn-light" style =" padding: 5px;"type="submit" value="log out"> 
+              </i>     </form> 
+            
+          </li>
+         
+        </ul>
+
+      
+
+    </div>
+  </nav>
+  <!-- Navbar -->
+
+  
+  <main class="mt-5 pt-4">
+    <div class="container wow fadeIn">
+
+      
+      <h2 class="my-5 h2 text-center">Welcome {{session['first_name']}}!</h2>
+
+      
+      <div class="row">
+
+        
+        <div class="col-md-8 mb-4">
+          {% for nr_sent in sent %}
+          <h6>You have sent {{nr_sent.sent}} messages!</h6>
+          {% endfor %}
+          
+          
+          <div class="card">
+          {% for users in user %}
+
+            
+            <form class="card-body" action="/send" method="POST">
+
+              
+              <div class="row">
+
+                
+                <div class="col-md-12 mb-2">
+
+                  
+                  <h4>{{users.first_name}}</h4>
+                  
+                  <div class="md-form ">
+                      
+                    <i class="fas fa-pencil-alt prefix"></i>
+                    <input type="hidden" value="{{users['id']}}" name="id">
+                    <textarea type="text" id="form10" class="md-textarea form-control" rows="2" name="message"></textarea>
+                    <label for="form10">Write Message</label>
+         
+                  </div>
+
+                </div>
+              </div>
+              <hr class="mb-4">
+              <button class="btn btn-primary btn-lg btn-block" type="submit">SEND</button>
+
+            </form>
+           {% endfor %}
+          </div>
+          
+         
+          
+        </div>
+
+      
+        
+            
+          
+           
+               
+        <div class="col-md-4 mb-4"> 
+          
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Messages</span>
+            {% for nr in nr_msg %}
+            <span class="badge badge-secondary badge-pill">{{nr.nr_msg}} </span>
+            {% endfor %}
+          </h4> 
+           
+          {% for message in messages %} 
+          <ul class="list-group mb-3 z-depth-1">
+            <li class="list-group-item d-flex justify-content-between lh-condensed" style="padding:2px;">
+              <div class="col-md-6 mb-4">
+                <h6 class="my-0">{{message.first_name_from}}</h6>
+                <h6 class="my-0">{{message.created_at}}</h6>
+                <small class="text-muted">{{message.message}}</small>
+              </div>
+              
+              
+              <form action="/delete/message/{{message['id']}}" method="POST">
+                <i  class="fa fa-trash" aria-hidden="true"></i> 
+                  <input type="hidden" value="{{message['id']}}" name="id">
+                  
+                  <input class="btn btn-light" style =" padding: 5px;"type="submit" value="Delete"></i>  
+                </i> 
+              </form>
+              
+            </li>
+          </ul>
+            
+          {%endfor%}
+        
+        </div>
+         
+     
+      </div> 
+     
+      
+
+    </div>
+  </main>
+  
+
+
+ 
+
+ 
+</body>
+
+</html>
